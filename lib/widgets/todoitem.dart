@@ -1,50 +1,61 @@
 import 'package:flutter/material.dart';
+import '../model/todo.dart';
 
 class ToDoItem extends StatelessWidget {
+  final ToDo todo;
+  final VoidCallback onDelete;
+  final VoidCallback onEdit;
+  final VoidCallback onToggle;
 
+  const ToDoItem({
+    super.key,
+    required this.todo,
+    required this.onDelete,
+    required this.onEdit,
+    required this.onToggle,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(bottom: 10),
       child: ListTile(
-        contentPadding: EdgeInsets.symmetric(horizontal: 20,vertical: 5),
-        onTap: () {
-          print('Clicked on To Do Item');
-        },
+        contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+        onTap: onToggle,
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20)
+          borderRadius: BorderRadius.circular(20),
         ),
         tileColor: Colors.white,
-        leading: Icon(Icons.check_box,
-          color: Colors.lightBlueAccent,
+        leading: Icon(
+          todo.isDone
+              ? Icons.check_box
+              : Icons.check_box_outline_blank,
+          color: Colors.green,
         ),
-        title: Text('Check Documents',
-          style: TextStyle(fontSize: 16,
-              color:Colors.black,
-            decoration: TextDecoration.lineThrough,
 
+        title: Text(
+          todo.todoText,
+          style: TextStyle(
+            fontSize: 16,
+            color: Colors.black,
+            decoration:
+            todo.isDone ? TextDecoration.lineThrough : null,
           ),
         ),
-        trailing: Container(
-          padding: EdgeInsets.all(0),
-          margin: EdgeInsets.symmetric(vertical: 12),
-          height: 35,
-          width: 35,
-          decoration: BoxDecoration(
-            color: Colors.red,
-            borderRadius: BorderRadius.circular(5)
-          ),
-          child:IconButton(
-            padding: EdgeInsets.all(5),
-            color: Colors.white,
-            icon: Icon(Icons.delete),
-            onPressed: (){
-              print('pressed on delete icon');
-            },
-          ),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(
+              icon: Icon(Icons.edit, color: Colors.blue),
+              onPressed: onEdit,
+            ),
+            IconButton(
+              icon: Icon(Icons.delete, color: Colors.red),
+              onPressed: onDelete,
+            ),
+          ],
         ),
       ),
     );
   }
 }
-

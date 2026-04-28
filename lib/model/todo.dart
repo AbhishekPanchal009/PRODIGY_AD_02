@@ -1,7 +1,7 @@
 class ToDo {
-  String? id;
-  String? todoText;
-  bool? isDone;
+  String id;
+  String todoText;
+  bool isDone;
 
   ToDo({
     required this.id,
@@ -9,12 +9,12 @@ class ToDo {
     this.isDone = false,
   });
 
-  static List<ToDo> todolist(){
-    return[
-      ToDo(id: '01', todoText: 'Morning Excercise', isDone: true ),
-      ToDo(id: '02', todoText: 'Buy groceries', isDone: true ),
-      ToDo(id: '03', todoText: 'Check Emails' ),
-      ToDo(id: '04', todoText: 'Team Meeting' ),
+  static List<ToDo> todolist() {
+    return [
+      ToDo(id: '01', todoText: 'Morning Exercise', isDone: true),
+      ToDo(id: '02', todoText: 'Buy groceries', isDone: true),
+      ToDo(id: '03', todoText: 'Check Emails'),
+      ToDo(id: '04', todoText: 'Team Meeting'),
     ];
   }
 }

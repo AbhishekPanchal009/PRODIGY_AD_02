@@ -9,7 +9,6 @@ void main() {
 
 class MyApp extends StatelessWidget {
 
-  final todolist = ToDo.todolist();
   
   @override
   Widget build(BuildContext context) {
@@ -25,7 +24,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  
+
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -53,6 +52,39 @@ class _MyHomePageState extends State<MyHomePage> {
     c.clear();
   }
 
+  void _editTodoItem(ToDo todo) {
+    TextEditingController editController =
+    TextEditingController(text: todo.todoText);
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Edit Task'),
+          content: TextField(
+            controller: editController,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  todo.todoText = editController.text;
+                });
+                Navigator.pop(context);
+              },
+              child: Text('Save'),
+            ),
+          ],
+        );
+      },
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,7 +104,22 @@ class _MyHomePageState extends State<MyHomePage> {
               child: ListView(
                 children: [
                   for (ToDo todo in todolist)
-                  ToDoItem(),
+                  ToDoItem(
+                    todo: todo,
+                    onDelete: () {
+                      setState(() {
+                        todolist.remove(todo);
+                      });
+                    },
+                    onEdit: (){
+                      _editTodoItem(todo);
+                    },
+                    onToggle: () {
+                      setState(() {
+                        todo.isDone = !todo.isDone;
+                      });
+                    },
+                  ),
                 ],
               ),
             )
